@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Follow-Up Form</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Follow-Up Form</h1>
+        <form id="followUpForm">
+            <input type="text" id="name" placeholder="Name" required minlength="3" maxlength="50" />
+            <select id="status" required>
+                <option value="">Select Member Status</option>
+                <option value="Active">Active</option>
+                <option value="Inactive">Inactive</option>
+            </select>
+            <input type="text" id="recentFollowUp" placeholder="Recent Follow-Up" required minlength="3" maxlength="250" />
+            <input type="text" id="byWho" placeholder="By Who" required minlength="3" maxlength="50" />
+            <input type="date" id="dateFollowedUp" placeholder="Date Followed Up" required />
+            <button type="submit">Submit Follow-Up</button>
+        </form>
+
+        <h2>Submitted Follow-Ups</h2>
+        <table id="followUpTable">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Status</th>
+                    <th>Recent Follow-Up</th>
+                    <th>By Who</th>
+                    <th>Date Followed Up</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+    <script>
+        const serverUrl = 'http://localhost:3000/api/followups';
+
+        document.getElementById('followUpForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value.trim();
+            const status = document.getElementById('status').value.trim();
+            const recentFollowUp = document.getElementById('recentFollowUp').value.trim();
+            const byWho = document.getElementById('byWho').value.trim();
+            const dateFollowedUp = document.getElementById('dateFollowedUp').value;
+
+            try {
+                const response = await axios.post(serverUrl, { name, status, recentFollowUp, byWho, dateFollowedUp });
+                alert('Follow-Up submitted successfully');
+                document.getElementById('followUpForm').reset();
+
+                addFollowUpToTable(response.data);
+            } catch (error) {
+                console.error('Error details:', error.response ? error.response.data : error.message);
+                alert('An error occurred while submitting the follow-up');
+            }
+        });
+
+        function addFollowUpToTable(followUp) {
+            const tableBody = document.getElementById('followUpTable').getElementsByTagName('tbody')[0];
+            const row = tableBody.insertRow(-1);
+
+            row.insertCell(0).textContent = followUp.name;
+            row.insertCell(1).textContent = followUp.status;
+            row.insertCell(2).textContent = followUp.recentFollowUp;
+            row.insertCell(3).textContent = followUp.byWho;
+            row.insertCell(4).textContent = followUp.dateFollowedUp;
+            const actionsCell = row.insertCell(5);
+            actionsCell.innerHTML = `
+                <button onclick="editFollowUp('${followUp._id}')">Edit</button>
+                <button onclick="deleteFollowUp('${followUp._id}')">Delete</button>
+            `;
+        }
+
+        async function loadFollowUps() {
+            try {
+                const response = await axios.get(serverUrl);
+                const followUps = response.data;
+                const tableBody = document.getElementById('followUpTable').getElementsByTagName('tbody')[0];
+                tableBody.innerHTML = '';
+
+                followUps.forEach(followUp => {
+                    addFollowUpToTable(followUp);
+                });
+            } catch (error) {
+                console.error('Error loading follow-ups:', error.message);
+                alert('An error occurred while loading follow-ups');
+            }
+        }
+
+        async function editFollowUp(id) {
+            const name = prompt('Enter new name:');
+            const status = prompt('Enter new status (Active/Inactive):');
+            const recentFollowUp = prompt('Enter new recent follow-up:');
+            const byWho = prompt('Enter new by who:');
+            const dateFollowedUp = prompt('Enter new date followed up:');
+
+            try {
+                const response = await axios.put(`${serverUrl}/${id}`, { name, status, recentFollowUp, byWho, dateFollowedUp });
+                alert('Follow-Up updated successfully');
+                loadFollowUps();
+            } catch (error) {
+                console.error('Error updating follow-up:', error.message);
+                alert('An error occurred while updating the follow-up');
+            }
+        }
+
+        async function deleteFollowUp(id) {
+            try {
+                await axios.delete(`${serverUrl}/${id}`);
+                alert('Follow-Up deleted successfully');
+                loadFollowUps();
+            } catch (error) {
+                console.error('Error deleting follow-up:', error.message);
+                alert('An error occurred while deleting the follow-up');
+            }
+        }
+
+        // Load follow-ups when the page loads
+        window.onload = loadFollowUps;
+    </script>
+</body>
+</html>

@@ -1,0 +1,134 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    height: 100vh;
+    box-sizing: border-box;
+}
+
+.container {
+    width: 100%;
+    max-width: 1000px; /* Increased to give more space */
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    box-sizing: border-box;
+}
+
+h1, h2 {
+    text-align: center;
+    color: #333;
+    margin: 0 0 20px;
+}
+
+form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* Added gap for spacing */
+    margin-bottom: 20px;
+}
+
+form input[type="text"], form input[type="email"], form input[type="date"], form button {
+    flex: 1 1 calc(50% - 20px); /* Adjusted to fit within the container with spacing */
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+form button {
+    flex: 1 1 100%;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+form button:hover {
+    background-color: #45a049;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    table-layout: auto; /* Allows table to adjust based on content */
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 15px;
+    text-align: left;
+    word-wrap: break-word;
+}
+
+th {
+    background-color: #4CAF50;
+    color: white;
+}
+
+td {
+    white-space: normal;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+tr:hover {
+    background-color: #ddd;
+}
+
+td.date-column {
+    width: 100px; /* Ensures the date column is wide enough */
+}
+
+td.address-column {
+    width: 200px; /* Adjusted to ensure the address column is wide enough */
+}
+
+.actions button {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    margin-right: 5px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.actions button:hover {
+    background-color: #e53935;
+}
+
+.actions button.edit {
+    background-color: #2196F3;
+}
+
+.actions button.edit:hover {
+    background-color: #1e88e5;
+}
+
+.actions button.delete {
+    background-color: #f44336;
+}
+
+.actions button.delete:hover {
+    background-color: #e53935;
+}
+
+@media (max-width: 600px) {
+    form input[type="text"], form input[type="email"], form input[type="date"], form button {
+        flex: 1 1 100%;
+    }
+}
