@@ -14,14 +14,13 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'login.html'));
 });
 
-mongoose.connect('mongodb+srv://Mensah04:Josef2024@cluster0.fat7n.mongodb.net/?retryWrites=true&w=majority', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-}).then(() => {
+mongoose.connect('mongodb+srv://Mensah04:Josef2024@cluster0.fat7n.mongodb.net/followups?retryWrites=true&w=majority')
+  .then(() => {
     console.log('Connected to MongoDB');
-}).catch((error) => {
+  })
+  .catch((error) => {
     console.error('Error connecting to MongoDB:', error);
-});
+  });
 
 // User Authentication
 const PREDEFINED_USER = {
