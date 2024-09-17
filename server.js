@@ -23,7 +23,7 @@ app.use(session({
     saveUninitialized: true,
 }));
 
-mongoose.connect('mongodb://localhost:27017/followups', {
+mongoose.connect('mongodb+srv://Mensah04:Josef2024@cluster0.fat7n.mongodb.net/?retryWrites=true&w=majority', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).then(() => {
