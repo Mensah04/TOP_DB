@@ -5,16 +5,18 @@ const cors = require('cors');
 const path = require('path');
 const session = require('express-session');
 const bcrypt = require('bcryptjs');
+const session = require('express-session');
+const MongoStore = require('connect-mongo');
 
 const app = express();
 
+app.use(express.static(path.join(__dirname, 'public')));
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'login.html'));
 });
 
 app.use(bodyParser.json());
 app.use(cors());
-app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
     secret: 'RCCG_TOP',
     resave: false,
@@ -88,8 +90,6 @@ const followUpSchema = new mongoose.Schema({
 });
 
 const FollowUp = mongoose.model('FollowUp', followUpSchema);
-
-// User APIs
 
 // Handle login
 app.post('/api/login', (req, res) => {
