@@ -50,16 +50,12 @@ app.use(session({
     secret: 'RCCG_TOP',
     resave: false,
     saveUninitialized: true,
-    cookie: { maxAge: 10 * 10 * 1000 } 
+    store: MongoStore.create({
+        mongoUrl: 'mongodb+srv://Mensah04:Josef2024@cluster0.fat7n.mongodb.net/followups?retryWrites=true&w=majority',
+        ttl: 14 * 24 * 60 * 60 // Expiration time in seconds (14 days)
+    }),
+    cookie: { maxAge: 10 * 10 * 1000 }
 }));
-
-function isAuthenticated(req, res, next) {
-    if (req.session.userId) {
-        return next();
-    } else {
-        return res.redirect('/');
-    }
-}
 
 app.use((req, res, next) => {
     res.setHeader('Cache-Control', 'no-store');
