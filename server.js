@@ -5,7 +5,6 @@ const cors = require('cors');
 const path = require('path');
 const session = require('express-session');
 const bcrypt = require('bcryptjs');
-const session = require('express-session');
 const MongoStore = require('connect-mongo');
 
 const app = express();
