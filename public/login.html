@@ -10,11 +10,11 @@
 <body>
     <div class="container">
         <h1>Login</h1>
-        <form id="loginForm">
-            <input type="text" id="username" placeholder="Username" required minlength="3" maxlength="50" />
-            <input type="password" id="password" placeholder="Password" required minlength="6" />
-            <button type="submit">Login</button>
-        </form>
+<form action="/api/login" method="POST">
+        <input type="text" name="username" placeholder="Username" />
+        <input type="password" name="password" placeholder="Password" />
+    <button type="submit">Login</button>
+</form>
         <p id="error" style="color: red;"></p>
     </div>
     <script>
