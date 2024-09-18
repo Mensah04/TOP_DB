@@ -9,6 +9,9 @@ const MongoStore = require('connect-mongo');
 
 const app = express();
 
+app.use(bodyParser.json()); // to parse JSON-formatted body data
+app.use(bodyParser.urlencoded({ extended: true }));
+
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'login.html'));
     app.use(express.static(path.join(__dirname, 'public')));
@@ -95,9 +98,21 @@ app.post('/api/login', (req, res) => {
 });
 
 app.post('/api/login', (req, res) => {
+    console.log(req.body); 
     const { username, password } = req.body;
     console.log('Received username:', username);
     console.log('Received password:', password);
+
+    if (username === PREDEFINED_USER.username && bcrypt.compareSync(password, PREDEFINED_USER.password)) {
+        req.session.userId = PREDEFINED_USER.username;
+        console.log('Login successful');
+        return res.redirect('/index.html');
+    } else {
+        console.log('Login failed: Invalid username or password');
+        return res.status(400).json({ success: false, message: 'Invalid username or password' });
+    }
+});
+
 
     if (username === PREDEFINED_USER.username && bcrypt.compareSync(password, PREDEFINED_USER.password)) {
         req.session.userId = PREDEFINED_USER.username;
