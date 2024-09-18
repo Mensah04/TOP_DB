@@ -19,8 +19,6 @@ app.get('/', (req, res) => {
 app.use(express.static(path.join(__dirname, 'public')));
 
 mongoose.connect('mongodb+srv://Mensah04:Josef2024@cluster0.fat7n.mongodb.net/followups?retryWrites=true&w=majority', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
 }).then(() => {
     console.log('Connected to MongoDB');
 }).catch((error) => {
