@@ -18,13 +18,13 @@ app.get('/', (req, res) => {
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-mongoose.connect('mongodb+srv://Mensah04:Josef2024@cluster0.fat7n.mongodb.net/followups?retryWrites=true&w=majority', {
+mongoose.connect('mongodb+srv://Mensah04:Josef2024@cluster0.fat7n.mongodb.net/', {
 }).then(() => {
     console.log('Connected to MongoDB');
 }).catch((error) => {
     console.error('Error connecting to MongoDB:', error.message); // Log connection error
     setTimeout(() => {
-        mongoose.connect('mongodb+srv://Mensah04:Josef2024@cluster0.fat7n.mongodb.net/followups?retryWrites=true&w=majority');
+        mongoose.connect('mongodb+srv://Mensah04:Josef2024@cluster0.fat7n.mongodb.net/');
     }, 5000); // Retry connection after 5 seconds
 });
 
