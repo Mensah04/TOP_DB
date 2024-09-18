@@ -12,15 +12,7 @@ const app = express();
 app.use(bodyParser.json()); // to parse JSON-formatted body data
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'login.html'));
-    app.use(express.static(path.join(__dirname, 'public')));
-});
-
 app.use(express.static(path.join(__dirname, 'public')));
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'login.html'));
-});
 
 mongoose.connect('mongodb+srv://Mensah04:Josef2024@cluster0.fat7n.mongodb.net/followups?retryWrites=true&w=majority')
   .then(() => {
@@ -85,18 +77,11 @@ const followUpSchema = new mongoose.Schema({
 
 const FollowUp = mongoose.model('FollowUp', followUpSchema);
 
-// Handle login
-app.post('/api/login', (req, res) => {
-    const { username, password } = req.body;
-
-    if (username === PREDEFINED_USER.username && bcrypt.compareSync(password, PREDEFINED_USER.password)) {
-        req.session.userId = PREDEFINED_USER.username;
-        return res.json({ success: true, message: 'Login successful' });
-    } else {
-        return res.status(400).json({ success: false, message: 'Invalid username or password' });
-    }
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'login.html'));
 });
 
+// Handle login
 app.post('/api/login', (req, res) => {
     console.log(req.body); 
     const { username, password } = req.body;
@@ -107,17 +92,6 @@ app.post('/api/login', (req, res) => {
         req.session.userId = PREDEFINED_USER.username;
         console.log('Login successful');
         return res.redirect('/index.html');
-    } else {
-        console.log('Login failed: Invalid username or password');
-        return res.status(400).json({ success: false, message: 'Invalid username or password' });
-    }
-});
-
-
-    if (username === PREDEFINED_USER.username && bcrypt.compareSync(password, PREDEFINED_USER.password)) {
-        req.session.userId = PREDEFINED_USER.username;
-        console.log('Login successful');
-        return res.json({ success: true, message: 'Login successful' });
     } else {
         console.log('Login failed: Invalid username or password');
         return res.status(400).json({ success: false, message: 'Invalid username or password' });
@@ -251,12 +225,6 @@ app.get('/followup.html', isAuthenticated, (req, res) => {
 });
 
 // Logout route
-app.get('/logout', (req, res) => {
-    req.session.destroy(() => {
-        res.redirect('/');
-    });
-});
-
 app.get('/logout', (req, res) => {
     req.session.destroy(() => {
         res.redirect('/');
