@@ -8,6 +8,7 @@ const bcrypt = require('bcryptjs');
 const MongoStore = require('connect-mongo');
 
 const app = express();
+app.use(cors());
 
 app.use(bodyParser.json()); // to parse JSON-formatted body data
 app.use(bodyParser.urlencoded({ extended: true }));
